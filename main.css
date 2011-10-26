@@ -1,6 +1,13 @@
-html{
-    font: 30px Ubuntu;
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:500);
+@import url(http://fonts.googleapis.com/css?family=Salsa);
 
+html{
+    font: 500 30px "Ubuntu";
+
+}
+
+article:nth-child(even){
+    font-family: "Salsa";
 }
 
 body{
