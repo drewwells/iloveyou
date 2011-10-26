@@ -43,8 +43,8 @@ body{
 article{
 
     position: absolute;
-    width: 97%;
-    height: 97%;
+    width: 1150px;
+    height: 675px;
     opacity: 0;
 
     -webkit-box-sizing: border-box;

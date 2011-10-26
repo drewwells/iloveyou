@@ -40,7 +40,24 @@
 
     document.onkeydown = function( ev ){
 
-        if( !ev.keyIdentifier ){ return true; }
+        if( !ev.keyIdentifier ){
+
+            switch( ev.keyCode ){
+
+                case 38:
+                    ev.keyIdentifier = 'Top';
+                    break;
+                case 39:
+                    ev.keyIdentifier = 'Right';
+                    break;
+                case 40:
+                    ev.keyIdentifier = 'Bottom';
+                    break;
+                case 37:
+                    ev.keyIdentifier = 'Left';
+                    break;
+            }
+        }
         var current = document.querySelectorAll( 'article' )[ state.current ],
             far;
 
