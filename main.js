@@ -1,25 +1,26 @@
 (function(){
 
-    var articles = document.querySelectorAll('article');
+    var articles = document.querySelectorAll('article'),
+        state = {
+            current: 0,
+            increment: 10,
+            path: "",
+            update: function( state ){
+                this.current = state;
+                window.history.pushState( {}, null, this.path + "slide" + this.current );
+            },
+            get: function(){
+                return this.current;
+            }
+        },
+        body = document.querySelector( "body" ),
+        onload = window.location.pathname.split( 'slide' );
 
     for( var i = 1, l = articles.length; i < l; i++ ){
 
         articles[ i ].className = 'future';
     }
 
-    var state = {
-        current: 0,
-        path: "",
-        update: function( state ){
-            this.current = state;
-            window.history.pushState( {}, null, this.path + "slide" + this.current );
-        },
-        get: function(){
-            return this.current;
-        }
-    };
-
-    var onload = window.location.pathname.split( 'slide' );
     state.path = onload[0];
 
     if( onload.length > 1 ){
@@ -33,12 +34,20 @@
         articles[ state.current ].className = "current";
         state.update( state.current );
 
-        if( state.current != 0 ){
-            articles[ state.current - 1 ] = "past";
+        if( state.current ){
+
+            for( i = 0, l = state.current; i < l; i++ ){
+
+                articles[ i ].className = "past";
+            }
         }
+
     }
 
     document.onkeydown = function( ev ){
+
+        var current = document.querySelectorAll( 'article' )[ state.current ],
+            far;
 
         if( !ev.keyIdentifier ){
 
@@ -58,9 +67,14 @@
                     break;
             }
         }
-        var current = document.querySelectorAll( 'article' )[ state.current ],
-            far;
 
+        if( state.current % 2 ){
+
+            body.className = "";
+        } else {
+
+            body.className = "odd";
+        }
         switch( ev.keyIdentifier ){
 
             case "Left":
@@ -81,10 +95,11 @@
 
             case "Down":
 
-                if( state.current + 5 < articles.length ){
+                if( state.current + state.increment < articles.length ){
 
+                    articles[ state.current ].className = "far-future no-transition";
                     articles[ state.current ].className = "far-future";
-                    for( i = state.current + 1, l = state.current + 5; i < l; i++ ){
+                    for( i = state.current + 1, l = state.current + state.increment; i < l; i++ ){
 
                         articles[ i ].className = "past";
                     }
@@ -96,14 +111,14 @@
                             articles[ current ].classList.remove( "far-future" );
                             if( !articles[ current ].classList.contains( "current" ) ){
 
-                                articles[ current ].classList.add( "past" );
+                                articles[ current ].className = "past";
                             }
 
                         }, 1300);
                     })();
 
-                    state.update( state.current + 5 );
-                    articles[ state.current ].className = "far-past";
+                    state.update( state.current + state.increment );
+                    articles[ state.current ].className = "far-past no-transition";
 
                 }
 
@@ -113,8 +128,9 @@
 
                 if( state.current > 4 ){
 
+                    articles[ state.current ].className = "far-past no-transition";
                     articles[ state.current ].className = "far-past";
-                    for( i = state.current - 5, l = state.current; i < l; i++ ){
+                    for( i = state.current - state.increment, l = state.current; i < l; i++ ){
 
                         articles[ i ].className = "future";
                     }
@@ -124,12 +140,12 @@
 
                             articles[ current ].classList.remove( "far-past" );
                             if( !articles[ current ].classList.contains( "current" ) ){
-                                articles[ current ].classList.add( "future" );
+                                articles[ current ].className = "future";
                             }
                         }, 1300);
                     })();
-                    state.update( state.current - 5 );
-                    articles[ state.current ].className = "far-future";
+                    state.update( state.current - state.increment );
+                    articles[ state.current ].className = "far-future no-transition";
 
                 }
 
@@ -144,9 +160,7 @@
                 articles[ state.current ].className = "current";
             }, 100 );
         }
-
+        return true;
     };
-
-
 
 })();

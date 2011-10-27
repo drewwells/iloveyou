@@ -3,7 +3,6 @@
 
 html{
     font: 500 30px "Ubuntu";
-
 }
 
 article:nth-child(even){
@@ -12,9 +11,11 @@ article:nth-child(even){
 
 body{
     overflow: hidden;
+    width: 100%;
+    z-index: 8;
 
     display: -webkit-box;
-    display: -moz-box;
+    display: -moz-compact;
     display: -o-box;
     display: -ms-box;
     display: box;
@@ -32,6 +33,11 @@ body{
     -webkit-perspective: 1000px;
     -moz-perspective: 1000px;
     perspective: 1000px;
+
+    -webkit-transition: background-color 0.8s ease-in-out .4s, opacity 1.2s ease-in-out;
+    -moz-transition: background-color 0.8s ease-in-out .4s, opacity 1.2s ease-in-out;
+    transition: background-color 0.8s ease-in-out .4s, opacity 1.2s ease-in-out;
+
 }
 
 #container{
@@ -39,31 +45,50 @@ body{
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
-    z-index: 8;
+    z-index: 9;
 
     position: relative;
-    width: 1150px;
-    height: 675px;
+    width: 850px;
+    height: 695px;
+    padding: 10px;
 
+}
+/* Colors */
+body {
+    background-color: #eee8d5;
+}
+
+body.odd {
+    background-color: #93a1a1;
+}
+
+article{
+    background-color: #fdf6e3;
+    color: #657b83;
+    box-shadow: 0 3px 15px #002b36;
+}
+a,a:visited{
+    color: #d33682;
+    text-decoration: none;
 }
 
 article{
 
     position: absolute;
-    width: 1150px;
+    width: 850px;
     height: 675px;
     opacity: 0;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    box-shadow: 0 3px 15px #000;
 
     border-radius: 40px;
     padding: 1em 2em;
 
     -webkit-transition: -webkit-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
     -moz-transition: -webkit-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
+    transition: -webkit-transform 0.8s ease-in-out, opacity 1.2s ease-in-out;
 
     -webkit-box-pack: center;
     -moz-box-pack: center;
@@ -75,6 +100,13 @@ article{
     box-orient: vertical;
 
     text-align: center;
+}
+
+article.no-transition{
+
+    -webkit-transition-duration: 0 !important;
+    -moz-transition-duration: 0 !important;
+    transition-duration: 0 !important;
 }
 
 article h2 {
