@@ -43,7 +43,19 @@
         }
 
     }
+    //Sometimes you got to time travel
+    function timeTravel( ){
 
+        var str;
+        for( var i = 0; i < articles.length; i++ ){
+
+            str = articles[ i ].className;
+            if( str != 'current' ){
+
+                articles[ i ].className = str === "future" ? "past" : "future";
+            }
+        }
+    }
     document.onkeydown = function( ev ){
 
         var current = document.querySelectorAll( 'article' )[ state.current ],
@@ -78,19 +90,39 @@
         switch( ev.keyIdentifier ){
 
             case "Left":
-                if( !current.previousElementSibling ){ return false; }
-                current.previousElementSibling.className = "current";
-                current.className = "future";
-                state.update( --state.current );
-                return false;
+                if( !current.previousElementSibling ){
+
+                    current.parentNode.lastElementChild.className = "past no-transition";
+                    //ARGH!
+
+                    current.parentNode.lastElementChild.className = "current";
+                    timeTravel();
+                    state.update( current.parentNode.children.length - 1 );
+
+                } else {
+
+                    current.previousElementSibling.className = "current";
+                    state.update( --state.current );
+                }
+            current.className = "future";
+            return false;
             break;
 
             case "Right":
-                if( !current.nextElementSibling ){ return false; }
+            if( !current.nextElementSibling ){
+                current.parentNode.children[0].className = "future";
+                setTimeout(function(){
+                    current.parentNode.children[0].className = "current";
+                },4);
+                state.update( 0 );
+                timeTravel();
+            } else {
                 current.nextElementSibling.className = "current";
-                current.className = "past";
                 state.update( ++state.current );
-                return false;
+            }
+            current.className = "past";
+            return false;
+
             break;
 
             case "Down":
