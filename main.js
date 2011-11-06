@@ -43,6 +43,36 @@
         }
 
     }
+
+    document.addEventListener( 'touchstart', touch );
+    document.addEventListener( 'touchmove', touch );
+    document.addEventListener( 'touchend', touch );
+
+    var dragging, start, end, delta, distance = window.screenX / 2;
+
+    function touch( event ){
+
+        var type = event.type, change;
+        if( type !== "touchmove" ){
+
+            if( !dragging ){
+
+                start = event.pageX;
+            }
+            dragging = !dragging;
+        } else if( dragging ){
+
+            change = event.pageX - start;
+
+            if( Math.abs( Math.floor( change / distance ) ) > 0 ) {
+
+                start = event.pageX;
+                change > 0 ? changePage( 'Left' ) : changePage( 'Right' );
+            }
+
+        }
+    };
+
     //Sometimes you got to time travel
     function timeTravel( ){
 
@@ -58,8 +88,6 @@
     }
     document.onkeydown = function( ev ){
 
-        var current = document.querySelectorAll( 'article' )[ state.current ],
-            far;
 
         if( !ev.keyIdentifier ){
 
@@ -67,7 +95,7 @@
 
                 case 38:
                     ev.keyIdentifier = 'Top';
-                    break;
+                        break;
                 case 39:
                     ev.keyIdentifier = 'Right';
                     break;
@@ -80,6 +108,14 @@
             }
         }
 
+        changePage( ev.keyIdentifier );
+    };
+
+    function changePage( keyStroke ){
+
+        var current = document.querySelectorAll( 'article' )[ state.current ],
+            far;
+
         if( state.current % 2 ){
 
             body.className = "";
@@ -87,7 +123,7 @@
 
             body.className = "odd";
         }
-        switch( ev.keyIdentifier ){
+        switch( keyStroke ){
 
             case "Left":
                 if( !current.previousElementSibling ){

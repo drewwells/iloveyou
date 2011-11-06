@@ -1,0 +1,3 @@
+[submodule "phantom-limb"]
+	path = phantom-limb
+	url = git://github.com/brian-c/phantom-limb.git
