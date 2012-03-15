@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title>{{ page.title }}</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="content">
+    {{ content }}
+    </div>
+<h1>Last modified: {{ site.time }}</h1>
+<script>
+    var h1 = document.getElementsByTagName( 'h1' )[ 0 ];
+    h1.innerHTML = /[^-]+/.exec( h1.innerHTML );
+</script>
+</body>
+</html>

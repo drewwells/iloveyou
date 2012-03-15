@@ -1,0 +1,13 @@
+body {
+    background: url(xv.png);
+}
+#content {
+    margin: 0 auto;
+    width: 500px;
+}
+pre {
+    font-family: 'Times New Roman';
+}
+h1 {
+    color: blueviolet;
+}
